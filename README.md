@@ -12,5 +12,5 @@ project cashier-online hacktiv8
 '/items/:id/edit/'; <-- admin
 '/items/:id/delete'; <-- admin
 
-'/transaction'
+'/transaction/'
 '/transactions/add'
