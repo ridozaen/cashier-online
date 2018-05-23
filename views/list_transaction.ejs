@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>All Transactions Data</title>
+</head>
+<body>
+	<h1>All Transactions Data </h1>
+	<p><a href="/transactions/mostSellAllTime">most sell item all time</a></p>
+	<table border="2px">	
+	  <tr>
+	  	<th>Id</th>
+	    <th>Item Name || Brand</th>
+	    <th>Item Qty</th>
+	    <th>Price</th>
+	    <th>Item Price</th>
+	    <th>Total Price</th>
+	  </tr>
+	  <% for (var i=0;i<dataTransactions.length;i++) {%>
+		  <tr>
+		  	<td><%= dataTransactions[i].id %></td>
+			    <td>
+				    <% for(var j=0;j<dataTransactions[i].Items.length;j++) {%>	
+				    	<%= dataTransactions[i].Items[j].name%> || <%= dataTransactions[i].Items[j].brand%>
+				    	<br>
+					<%}%>    		
+			    </td>
+			  	 <td>
+				    <% for(var j=0;j<dataTransactions[i].Items.length;j++) {%>	
+				    	<%= dataTransactions[i].Items[j].TransactionItem.itemQty%>
+				    	<br>
+					<%}%>	
+			    		
+			    </td>
+			    <td>
+			    	<% for(var j=0;j<dataTransactions[i].Items.length;j++) {%>	
+				    	<%= currencyHelper(dataTransactions[i].Items[j].price)%>
+				    	<br>
+					<%}%>
+			    </td>
+			    <td>
+			    	<% for(var j=0;j<dataTransactions[i].Items.length;j++) {%>	
+				    	<%= currencyHelper(totalPriceHelper(dataTransactions[i].Items[j].price,dataTransactions[i].Items[j].TransactionItem.itemQty)) %>
+				    	<br>
+					<%}%>
+			    </td>
+			     <td>
+			     	<% var totalPrice=0%>
+			    	<% for(var j=0;j<dataTransactions[i].Items.length;j++) {%>	
+				    	<%totalPrice+= Number(totalPriceHelper(dataTransactions[i].Items[j].price,dataTransactions[i].Items[j].TransactionItem.itemQty)) %>
+				    <%}%>
+				    <%= currencyHelper(totalPrice) %>	
+				    <br>
+			    </td>
+		     
+		  </tr>
+	  <% } %>
+	</table>  
+
+</body>
+</html>
