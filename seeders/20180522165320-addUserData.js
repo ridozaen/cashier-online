@@ -13,24 +13,24 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('Users', [{
-    //   firstName: 'admin',
-    //   lastName: 'admin',
-    //   username: 'admin',
-    //   password: 'admin',
-    //   address: '',
-    //   role: 'admin',
-    //   createdAt: new Date(),
-    //   updatedAt: new Date()
-    // },
-    // {
-    //   firstName: 'John',
-    //   lastName: 'Cena',
-    //   username: 'cena',
-    //   password: 'cena',
-    //   address: '',
-    //   role: 'cashier',
-    //   createdAt: new Date(),
-    //   updatedAt: new Date()
+      firstName: 'admin',
+      lastName: 'admin',
+      username: 'admin',
+      password: 'admin',
+      address: '',
+      role: 'admin',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      firstName: 'John',
+      lastName: 'Cena',
+      username: 'cena',
+      password: 'cena',
+      address: '',
+      role: 'cashier',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }], {});
   },
 

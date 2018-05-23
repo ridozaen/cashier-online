@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<table>
+	  <tr>
+	    <th>Item</th>
+	    <th>Sell</th>
+	  </tr>
+
+	  <% for(var i=0;i<dataItems.length;i++) {%>
+	  <tr>
+	    <td><%= dataItems[i].name%></td>
+	    	
+	    	<% var itemQty=0 %>
+	    	<% for(var j=0;j<dataItems[i].Transactions.length;j++) {%>
+	    		<% itemQty+=dataItems[i].Transactions[j].TransactionItem.itemQty%>
+	    	<%}%>
+	    	<td><%= itemQty %></td>
+	  </tr>
+	  <%}%>
+</table>
+</body>
+</html>
