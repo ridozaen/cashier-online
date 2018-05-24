@@ -18,6 +18,7 @@ router.post('/', (req, res) => {
         if (user){
             let cekPassword = bcrypt.compareSync(password, user.password);
             if (cekPassword){
+                req.session.userId = user.id
                 req.session.username = user.username;
                 req.session.role = user.role;
                 res.redirect('/');

@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   User.associate = function(models) {
     // associations can be defined here
+    User.hasMany(models.Transaction, {foreignKey: 'userId'})
   };
   User.hook('beforeCreate', (user, options)=>{
     const salt = 7;
@@ -19,5 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     let hash = bcrypt.hashSync(plainPassword,salt);
     user.password = hash;
   })
+  //instance method
+  User.prototype.getFullName = function(){
+    return this.firstName + ' ' + this.lastName
+  }
   return User;
 };

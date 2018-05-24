@@ -1,4 +1,4 @@
-function isAuthorized(req,res, next){
+function isAdmin(req,res, next){
     if (req.session && req.session.username){
         if (req.session.role === 'admin'){
             return next()
@@ -13,4 +13,4 @@ function isAuthorized(req,res, next){
     }
 }
 
-module.exports = isAuthorized;
+module.exports = isAdmin;

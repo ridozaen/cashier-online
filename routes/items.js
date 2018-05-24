@@ -10,7 +10,11 @@ router.get('/',function(req,res) {
 		]
 	})
 	.then(dataItems=> {
-		res.render("list_item",{dataItems:dataItems})
+		let objcurrUser = {};
+		objcurrUser.id = req.session.userId
+		objcurrUser.username = req.session.username
+		objcurrUser.role = req.session.role
+		res.render("list_item",{currentUser:objcurrUser, dataItems:dataItems})
 	})
 })
 

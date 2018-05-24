@@ -1,22 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const models = require("../models")
+const models = require("../models");
+const isAuthenticated = require('../middleware/authentication');
 
-router.get('/',function(req,res) {
+router.get('/', function (req, res) {
 	models.Transaction.findAll({
-		include:models.Item,
+		include: models.Item,
 		order: [
-			["id","ASC" ]
+			["id", "ASC"]
 		]
 
 	})
-	.then((dataTransactions)=>{
-		// res.send(dataTransactions)
-		res.render("list_transaction",{dataTransactions:dataTransactions})	
-	})
+		.then((dataTransactions) => {
+			// res.send(dataTransactions)
+			res.render("list_transaction", { dataTransactions: dataTransactions })
+		})
 })
 
-router.get('/mostSellAllTime',function(req,res) {
+router.get('/mostSellAllTime', function (req, res) {
 	// models.Item.findAll({
 	// 	include:models.Transaction,
 	// 	// order: [
@@ -55,17 +56,82 @@ router.get('/mostSellAllTime',function(req,res) {
 
 	models.sequelize.query(query).then((results) => {
 		res.send(results)
-	  // Results will be an empty array and metadata will contain the number of affected rows.
+		// Results will be an empty array and metadata will contain the number of affected rows.
 	})
-
 
 })
 
-// Product.findAll({
-// 	include: [
-// 		{models: 'Transaction'},
+//route /transactions/add
+router.get('/add', function (req, res) {
+	let objcurrUser = {};
+	objcurrUser.id = req.session.userId
+	objcurrUser.username = req.session.username
+	objcurrUser.role = req.session.role
+	res.render('add_Transaction', { currentUser: objcurrUser, transaction: {}, items:{}, numberOfItems: null });
 
-// 	]
-// })
+});
+
+router.post('/add', function (req, res) {
+	let transactionDate = req.body.transDate;
+	req.session.numberOfItems = req.body.numberOfItems;
+	let numberOfItems = req.body.numberOfItems;
+	let userId = req.session.userId
+	models.Transaction.create({
+		transactionDate,
+		userId,
+		numberOfItems
+	})
+		.then(function (transaction) {
+			models.Item.findAll({
+				order: [['id', 'ASC']]
+			})
+				.then(function (items) {
+					let objcurrUser = {};
+					objcurrUser.id = req.session.userId
+					objcurrUser.username = req.session.username
+					objcurrUser.role = req.session.role
+					res.render('add_transaction', { currentUser: objcurrUser, transaction, items, numberOfItems });
+				})
+				.catch(function (err) {
+					res.send(err.message);
+				})
+		})
+		.catch(function (err) {
+			res.send(err);
+		})
+})
+
+router.post('/:id/add', function (req, res) {
+	let transactionId = req.params.id;
+	if (req.session.numberOfItems) {
+		for (let i = 0; i < req.session.numberOfItems; i++) {
+			let itemId = req.body.itemList[i];
+			let itemQty = parseInt(req.body.itemQty[i]);
+			models.Item.findById(itemId)
+				.then(function (item) {
+					let stockRemind = item.stock - itemQty;
+					if (stockRemind >= 0) {
+						models.TransactionItem.create({
+							transactionId: transactionId,
+							itemId: itemId,
+							itemQty: itemQty
+						})
+							.then(function (transactionItem) {
+								console.log('created success')
+							})
+							.catch(function (err) {
+								res.send(err.message)
+							})
+					} else {
+						console.log('stock minus');
+					}
+				})
+				.catch(function (err) {
+					res.send(err.message);
+				})
+		}
+		res.redirect('/transactions/add');
+	}
+})
 
 module.exports = router

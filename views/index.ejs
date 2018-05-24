@@ -10,19 +10,7 @@
 </head>
 
 <body>
-    <h1>Cashier Online</h1>
-    <% if (currentUser.username){ %>
-        <% if(currentUser.role === 'admin'){ %>
-            <a href="/items">Items Panel</a>
-        <% } %>
-        <% if(currentUser.role === 'cashier'){ %>
-            <a href="/transaction">Transaction Add</a>
-        <% } %>
-        <a href="/logout">logout</a>
-    <% }else{ %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
-    <% } %>
+    <%- include header.ejs %>
 </body>
 
 </html>

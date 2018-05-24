@@ -4,7 +4,7 @@ const models = require('../models');
 const isAuthorized = require('../middleware/authorization');
 const User =  models.User;
 
-router.get ('/', isAuthorized, (req,res)=>{
+router.get ('/', (req,res)=>{
     res.render('register')
 })
 
