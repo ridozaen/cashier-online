@@ -17,34 +17,7 @@ router.get('/', function (req, res) {
 		})
 })
 
-router.get('/mostSellAllTime', function (req, res) {
-	// models.Item.findAll({
-	// 	include:models.Transaction,
-	// 	// order: [
-	// 	// 	['Transactions.length','ASC']
-
-	// 	// ]
-	// })
-	// .then(dataItems=>{
-	// 	res.send(dataItems)
-	// 	res.render("mostSellAllTime_item",{dataItems:dataItems})
-	// })
-
-	// models.TransactionItem.findAll({
-	// 	attributes: [
-	// 	  'itemId', 
-	//       [Sequelize.fn('SUM', Sequelize.col('itemQty')), 'total_qty']
-	//     ],
-	//     group:['itemId'],
-	//     include: [{
-	//         model: models.Item,
-	//         attributes: [[ Sequelize.col('id'), 'id' ]],
-	//         group: [Sequelize.col('id')]
-	// 	}]
-	// })
-	// .then(function(transaction_items) {
-	// 	res.send(transaction_items)
-	// })
+router.get('/mostSellAllTime',function(req,res) {
 
 	var query = `SELECT "TransactionItem"."itemId", SUM("itemQty") AS "total_qty", 
 		"Item"."id" AS "Item.id", "Item"."name" AS "Item.name", "Item"."brand" AS "Item.brand", 
@@ -52,10 +25,35 @@ router.get('/mostSellAllTime', function (req, res) {
 		"Item"."createdAt" AS "Item.createdAt", "Item"."updatedAt" AS "Item.updatedAt" 
 		FROM "TransactionItems" AS "TransactionItem" 
 		LEFT OUTER JOIN "Items" AS "Item" ON "TransactionItem"."itemId" = "Item"."id" 
-		GROUP BY "itemId", "Item.id"; `
+		GROUP BY "itemId", "Item.id" 
+		ORDER BY "total_qty" DESC 
+		LIMIT 5;`
 
-	models.sequelize.query(query).then((results) => {
-		res.send(results)
+	models.sequelize.query(query).then((dataItems) => {
+		// res.send(dataItems)
+		res.render("mostSellAllTime_item",{dataItems:dataItems})
+
+	  // Results will be an empty array and metadata will contain the number of affected rows.
+		
+	})
+
+})
+
+router.get('/lessSellAllTime',function(req,res) {
+
+	var query = `SELECT "TransactionItem"."itemId", SUM("itemQty") AS "total_qty", 
+		"Item"."id" AS "Item.id", "Item"."name" AS "Item.name", "Item"."brand" AS "Item.brand", 
+		"Item"."price" AS "Item.price", "Item"."stock" AS "Item.stock",
+		"Item"."createdAt" AS "Item.createdAt", "Item"."updatedAt" AS "Item.updatedAt" 
+		FROM "TransactionItems" AS "TransactionItem" 
+		LEFT OUTER JOIN "Items" AS "Item" ON "TransactionItem"."itemId" = "Item"."id" 
+		GROUP BY "itemId", "Item.id" 
+		ORDER BY "total_qty" ASC 
+		LIMIT 5;`
+
+	models.sequelize.query(query).then((dataItems) => {
+		// res.send(dataItems)
+		res.render("lessSellAllTime_item",{dataItems:dataItems})
 		// Results will be an empty array and metadata will contain the number of affected rows.
 	})
 
@@ -132,6 +130,211 @@ router.post('/:id/add', function (req, res) {
 		}
 		res.redirect('/transactions/add');
 	}
+})
+	  // Results will be an empty array and metadata will contain the number of affected rows.
+		
+
+router.post('/mostSellByYear',function(req,res){
+	
+	var query = `SELECT 		
+		"TransactionItem"."itemId", 
+		SUM("itemQty") AS "total_qty", 
+		"Item"."id" AS "Item.id", "Item"."name" AS "Item.name", 
+		"Item"."brand" AS "Item.brand", 
+		"Item"."price" AS "Item.price", 
+		"TransactionItem"."transactionId" AS "TransactionItem.transactionId", 
+		"TransactionItem"."transactionId" AS "TransactionItem.transactionId",
+		TO_CHAR("Transaction"."transactionDate", 'DD-MON-YYYY') AS "Transaction.transactionDate"
+		FROM "TransactionItems" AS "TransactionItem" 
+
+
+		LEFT OUTER JOIN "Items" AS "Item" 
+		ON "TransactionItem"."itemId" = "Item"."id" 
+
+		LEFT OUTER JOIN "Transactions" AS "Transaction" 
+		ON "TransactionItem"."transactionId" = "Transaction"."id"
+
+		WHERE "transactionDate" >= '${req.body.year}-01-01 00:00:00' 
+		AND  "transactionDate" <  '${(Number(req.body.year)+1).toString()}-01-01 00:00:00'
+		
+		GROUP BY "TransactionItem.transactionId","transactionDate","itemId", "Item.id"
+		ORDER BY "total_qty" DESC 
+		; `
+
+	models.sequelize.query(query).then((dataItems) => {
+		// res.send(dataItems)
+		var newArr=[]
+		for(var i=0;i<dataItems[0].length;i++) {
+			  var count = 1
+			  for(var j=0;j<newArr.length;j++){
+			    if(dataItems[0][i].itemId == newArr[j]){
+			      count*=0
+			    }
+			  }
+			  if(count==1){
+			    newArr.push(dataItems[0][i].itemId)
+			  }
+		}
+		var expectedId = newArr.slice(0,5)
+
+		// res.send(newArr)
+		var arrMostItem=[]
+		for(var j=0;j<expectedId.length;j++) {
+			var objMostItem={}
+			var countQty=0
+			for(var k=0;k<dataItems[0].length;k++) {
+				if(expectedId[j]==dataItems[0][k].itemId) {
+					countQty+= Number(dataItems[0][k]["total_qty"])
+					objMostItem["itemId"] = dataItems[0][k]["itemId"]
+					objMostItem["item.name"] = dataItems[0][k]["Item.name"]
+					objMostItem["item.brand"] = dataItems[0][k]["Item.brand"]
+					objMostItem["total_qty"] = countQty
+				}
+
+			}
+			console.log(objMostItem)
+			arrMostItem.push(objMostItem)
+		}
+		// res.send(arrMostItem)	
+
+		res.render("mostSellByYear_item",{year:req.body.year,arrMostItem:arrMostItem})	
+	})
+
+})
+
+router.post('/mostSellByMonth',function(req,res){
+	var query = `SELECT 		
+		"TransactionItem"."itemId", 
+		SUM("itemQty") AS "total_qty", 
+		"Item"."id" AS "Item.id", "Item"."name" AS "Item.name", 
+		"Item"."brand" AS "Item.brand", 
+		"Item"."price" AS "Item.price", 
+		"TransactionItem"."transactionId" AS "TransactionItem.transactionId", 
+		"TransactionItem"."transactionId" AS "TransactionItem.transactionId",
+		TO_CHAR("Transaction"."transactionDate", 'DD-MON-YYYY') AS "Transaction.transactionDate"
+		FROM "TransactionItems" AS "TransactionItem" 
+
+
+		LEFT OUTER JOIN "Items" AS "Item" 
+		ON "TransactionItem"."itemId" = "Item"."id" 
+
+		LEFT OUTER JOIN "Transactions" AS "Transaction" 
+		ON "TransactionItem"."transactionId" = "Transaction"."id"
+
+		WHERE "transactionDate" >= '${req.body.year}-${req.body.month}-01 00:00:00' 
+		AND  "transactionDate" <  '${req.body.year}-${(Number(req.body.month)+1).toString()}-01 00:00:00'
+		
+		GROUP BY "TransactionItem.transactionId","transactionDate","itemId", "Item.id"
+		ORDER BY "total_qty" DESC 
+		; `
+
+	models.sequelize.query(query).then((dataItems) => {
+		// res.send(dataItems)
+		var newArr=[]
+		for(var i=0;i<dataItems[0].length;i++) {
+			  var count = 1
+			  for(var j=0;j<newArr.length;j++){
+			    if(dataItems[0][i].itemId == newArr[j]){
+			      count*=0
+			    }
+			  }
+			  if(count==1){
+			    newArr.push(dataItems[0][i].itemId)
+			  }
+		}
+		var expectedId = newArr.slice(0,5)
+
+		// res.send(newArr)
+		var arrMostItem=[]
+		for(var j=0;j<expectedId.length;j++) {
+			var objMostItem={}
+			var countQty=0
+			for(var k=0;k<dataItems[0].length;k++) {
+				if(expectedId[j]==dataItems[0][k].itemId) {
+					countQty+= Number(dataItems[0][k]["total_qty"])
+					objMostItem["itemId"] = dataItems[0][k]["itemId"]
+					objMostItem["item.name"] = dataItems[0][k]["Item.name"]
+					objMostItem["item.brand"] = dataItems[0][k]["Item.brand"]
+					objMostItem["total_qty"] = countQty
+				}
+
+			}
+			console.log(objMostItem)
+			arrMostItem.push(objMostItem)
+		}
+		 // res.send(arrMostItem)	
+
+		res.render("mostSellByMonth_item",{year:req.body.year,month:req.body.month,arrMostItem:arrMostItem})	
+	})
+
+})
+
+router.post('/mostSellByWeek',function(req,res){
+	// res.send(req.body)
+	var query = `SELECT 		
+		"TransactionItem"."itemId", 
+		SUM("itemQty") AS "total_qty", 
+		"Item"."id" AS "Item.id", "Item"."name" AS "Item.name", 
+		"Item"."brand" AS "Item.brand", 
+		"Item"."price" AS "Item.price", 
+		"TransactionItem"."transactionId" AS "TransactionItem.transactionId", 
+		"TransactionItem"."transactionId" AS "TransactionItem.transactionId",
+		TO_CHAR("Transaction"."transactionDate", 'DD-MON-YYYY') AS "Transaction.transactionDate"
+		FROM "TransactionItems" AS "TransactionItem" 
+
+
+		LEFT OUTER JOIN "Items" AS "Item" 
+		ON "TransactionItem"."itemId" = "Item"."id" 
+
+		LEFT OUTER JOIN "Transactions" AS "Transaction" 
+		ON "TransactionItem"."transactionId" = "Transaction"."id"
+
+		WHERE "transactionDate" >= '${req.body.year}-${req.body.month}-${(Number(req.body.week)-7).toString()} 00:00:00' 
+		AND  "transactionDate" <  '${req.body.year}-${req.body.month}-${req.body.week} 00:00:00'
+		
+		GROUP BY "TransactionItem.transactionId","transactionDate","itemId", "Item.id"
+		ORDER BY "total_qty" DESC 
+		; `
+
+	models.sequelize.query(query).then((dataItems) => {
+		// res.send((Number(req.body.week)-7).toString())
+		var newArr=[]
+		for(var i=0;i<dataItems[0].length;i++) {
+			  var count = 1
+			  for(var j=0;j<newArr.length;j++){
+			    if(dataItems[0][i].itemId == newArr[j]){
+			      count*=0
+			    }
+			  }
+			  if(count==1){
+			    newArr.push(dataItems[0][i].itemId)
+			  }
+		}
+		var expectedId = newArr.slice(0,5)
+
+		// res.send(newArr)
+		var arrMostItem=[]
+		for(var j=0;j<expectedId.length;j++) {
+			var objMostItem={}
+			var countQty=0
+			for(var k=0;k<dataItems[0].length;k++) {
+				if(expectedId[j]==dataItems[0][k].itemId) {
+					countQty+= Number(dataItems[0][k]["total_qty"])
+					objMostItem["itemId"] = dataItems[0][k]["itemId"]
+					objMostItem["item.name"] = dataItems[0][k]["Item.name"]
+					objMostItem["item.brand"] = dataItems[0][k]["Item.brand"]
+					objMostItem["total_qty"] = countQty
+				}
+
+			}
+			// console.log(objMostItem)
+			arrMostItem.push(objMostItem)
+		}
+		 // res.send(arrMostItem)	
+		 
+		res.render("mostSellByWeek_item",{arrMostItem:arrMostItem,year:req.body.year,month:req.body.month,week:req.body.week})	
+	})
+
 })
 
 module.exports = router

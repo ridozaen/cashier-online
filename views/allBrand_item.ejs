@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<a href='/items'>back</a>
+	<table border="2px">
+	  <tr>
+	    <th>No</th>
+	    <th>Brand</th>
+	  </tr>
+	  <%var count=1%>
+	  <% dataBrands.forEach(dataBrand=>{%>
+	  <tr>
+	  	<td><%= count++%></td>
+	    <td><%= dataBrand.brand%></td>
+	  </tr>
+	<%})%>
+</table>
+
+</body>
+</html>

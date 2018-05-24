@@ -10,6 +10,7 @@ router.get ('/', (req,res)=>{
 
 
 router.post ('/', (req,res)=>{
+    console.log(req.body)
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let username = req.body.username;
