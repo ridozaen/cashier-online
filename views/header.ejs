@@ -1,13 +1,15 @@
 <div>
-        <h1><a href="/">Cashier Online </a></h1>
+        <h1><a href="/">Cashier Online Application </a></h1>
     <% if (currentUser.username){ %>
         <% if(currentUser.role === 'admin'){ %>
-            <a href="/items">Items Panel</a>
+            <a href="/items">Items List</a><br>
+            <a href="/transactions">Transaction List</a><br>
+            <a href="/report/employeeofthemonth">Employee Of The Month</a><br>
+            <a href="/register">Register Cashier</a><br>
         <% } %>
-            <a href="/transactions/add">Transaction Add</a>
-        <a href="/logout">logout</a>
+            <a href="/transactions/add">Transaction Add</a><br>
+        <a href="/logout">logout</a><br>
     <% }else{ %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="/login">Login</a><br>
     <% } %>
 </div>

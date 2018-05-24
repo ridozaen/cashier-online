@@ -17,10 +17,10 @@ router.post('/employeeofthemonth', (req, res) => {
     let date = new Date();
     let year = date.getFullYear();
     let startDate = `${year}-${month}-01T00:00:00.000Z"`
-    let endDate = `${year}-${month}-31T00:00:00.000Z"`
+    let endDate = `${year}-${month}-28T00:00:00.000Z"`
     Transaction.findAll({
         where: {
-            createdAt: {
+            transactionDate: {
                 '$between': [
                     startDate,
                     endDate

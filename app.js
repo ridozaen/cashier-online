@@ -27,12 +27,12 @@ app.locals.totalPriceHelper = require("./helper/totalPriceHelper.js")
 app.locals.dateToString = require('./helper/dateToString');
 
 app.use('/', routes);
-app.use('/register', isAuthorized, register);
+app.use('/register',isAuthorized, register);
 app.use('/login', login);
 app.use('/logout', isAuthenticated, logout);
 app.use('/items',isAuthorized, items);
 app.use('/transactions',isAuthenticated,transactions);
-app.use('/report',report);
+app.use('/report',isAuthorized,report);
 
 
 app.listen(3000, ()=>{

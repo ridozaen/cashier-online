@@ -13,7 +13,11 @@ router.get('/', function (req, res) {
 	})
 		.then((dataTransactions) => {
 			// res.send(dataTransactions)
-			res.render("list_transaction", { dataTransactions: dataTransactions })
+			let objcurrUser = {};
+			objcurrUser.id = req.session.userId
+			objcurrUser.username = req.session.username
+			objcurrUser.role = req.session.role
+			res.render("list_transaction", { dataTransactions: dataTransactions , currentUser: objcurrUser})
 		})
 })
 
