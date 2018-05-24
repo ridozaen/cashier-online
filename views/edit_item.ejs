@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit Item</title>
+</head>
+<body>
+	<h1>Edit Item</h1>
+	<form action="/items/<%= dataItem.id%>/edit" method="post">
+	  name:<br>
+	  <input type="text" name="name" value="<%= dataItem.name%>">
+	  <br>
+	  brand:<br>
+	  <input type="text" name="brand" value="<%= dataItem.brand%>">
+	  <br>
+	  price:<br>
+	  <input type="text" name="price" value="<%= dataItem.price%>">
+	  <br>
+	  stock:<br>
+	  <input type="text" name="stock" value="<%= dataItem.stock%>">
+	  <br>
+	  <br>
+	  <input type="submit" value="Submit" >
+	</form> 
+</body>
+</html>

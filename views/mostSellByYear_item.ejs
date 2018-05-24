@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<p><a href="/transactions">back</a></p>
+	<h1>5 Most Sell By <%= year%></h1>
+	<table border = "2px">			
+	  <tr>
+	  	<th>Id</th>
+	    <th>Name</th>
+	    <th>Brand</th>
+	  	<th>Sold</th>
+	  </tr>
+
+	  <% for(var i=0;i<arrMostItem.length;i++) { %>	
+	  <tr>
+	    <td><%=arrMostItem[i].itemId%></td>
+	    <td><%=arrMostItem[i]["item.name"]%></td>
+	    <td><%=arrMostItem[i]["item.brand"]%></td>
+	    <td><%=arrMostItem[i]["total_qty"]%></td>	
+	  </tr>
+	  <%}%>
+</table>
+</body>
+</html>

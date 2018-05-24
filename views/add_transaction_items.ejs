@@ -1,0 +1,24 @@
+<h3>Item Transaction</h3>
+<form action="/transactions/<%=transaction.id %>/add" method="POST">
+    <table border="1">
+            <tr>
+                    <td>Item Name</td>
+                    <td>Item Qty</td>
+                </tr>
+        <% for (let i=1; i <= numberOfItems; i++){ %>
+            <tr>
+                    <td>
+                        <select name="itemList">
+                        <% items.forEach(item=>{ %>
+                            <option value="<%= item.id %>"><%= "name : " + item.name + ", brand : " + item.brand + ", price : " + item.price %></option>
+                        <% }) %>
+                        </select></td>
+                    <td><input type="text" name="itemQty"></td>
+                </tr>
+        <% } %>
+        <tr>
+            <td><input type="submit" value="Submit"></td>
+            <td></td>
+        </tr>
+    </table>
+</form>

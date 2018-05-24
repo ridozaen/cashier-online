@@ -1,0 +1,31 @@
+{
+  "name": "cashier-online",
+  "version": "1.0.0",
+  "description": "project cashier online",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ridozaen/cashier-online.git"
+  },
+  "keywords": [
+    "cashier",
+    "online"
+  ],
+  "author": "ridozaen, aldoprakoso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ridozaen/cashier-online/issues"
+  },
+  "homepage": "https://github.com/ridozaen/cashier-online#readme",
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "pg": "^7.4.3",
+    "sequelize": "^4.37.8"
+  }
+}

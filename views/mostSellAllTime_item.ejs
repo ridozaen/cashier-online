@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<p><a href="/transactions">back</a></p>
+	<h1>5 Most Sell All Time</h1>
+	<table border = "2px">			
+	  <tr>
+	  	<th>Id</th>
+	    <th>Name</th>
+	    <th>Brand</th>
+	  	<th>Sold</th>
+	  </tr>
+
+	  <% for(var i=0;i<dataItems[0].length;i++) { %>	
+	  <tr>
+	    <td><%=dataItems[0][i].itemId%></td>
+	    <td><%=dataItems[0][i]["Item.name"]%></td>
+	    <td><%=dataItems[0][i]["Item.brand"]%></td>
+	    <td><%=dataItems[0][i]["total_qty"]%></td>	
+	  </tr>
+	  <%}%>
+</table>
+</body>
+</html>

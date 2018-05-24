@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<p><a href="/transactions">back</a></p>
+	<% if(month =="01"){month="January"}%>
+	<% if(month =="02"){month="February"}%>
+	<% if(month =="03"){month="March"}%>
+	<% if(month =="04"){month="April"}%>
+	<% if(month =="05"){month="May"}%>
+	<% if(month =="06"){month="June"}%>
+	<% if(month =="07"){month="July"}%>
+	<% if(month =="08"){month="August"}%>
+	<% if(month =="09"){month="September"}%>
+	<% if(month =="10"){month="Oktober"}%>
+	<% if(month =="11"){month="November"}%>
+	<% if(month =="12"){month="December"}%>
+
+	<h1>5 Most Sell By <%= month%> <%=year%></h1>
+	<table border = "2px">			
+	  <tr>
+	  	<th>Id</th>
+	    <th>Name</th>
+	    <th>Brand</th>
+	  	<th>Sold</th>
+	  </tr>
+
+	  <% for(var i=0;i<arrMostItem.length;i++) { %>	
+	  <tr>
+	    <td><%=arrMostItem[i].itemId%></td>
+	    <td><%=arrMostItem[i]["item.name"]%></td>
+	    <td><%=arrMostItem[i]["item.brand"]%></td>
+	    <td><%=arrMostItem[i]["total_qty"]%></td>	
+	  </tr>
+	  <%}%>
+</table>
+</body>
+</html>

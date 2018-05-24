@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+		crossorigin="anonymous">
+	<title>Items Data</title>
+</head>
+<body>
+	<%- include header.ejs %>
+	<a href='/transactions'>Transactions Page >></a>
+	<h1> Items Data </h1>
+
+	<h3><a href = "/items/add"> Add Item</a></h3>
+	<table border="1">	
+
+	<p><a href='/items/showAllBrand'> Show All Brand </a></p>
+	<table>	
+	  <tr>
+	  	<th>Id</th>
+	    <th>Name</th>
+	    <th>Brand</th>
+	    <th>Price</th>
+	    <th>Stock</th>
+	    <th>Actions</th>
+	  </tr>
+	  <% for (var i=0;i<dataItems.length;i++) {%>
+	  <tr>
+	  	<td><%= dataItems[i].id %></td>
+	    <td><%= dataItems[i].name%></td>
+	    <td><%= dataItems[i].brand%></td>
+	    <td><%= dataItems[i].price%></td>
+	    <td><%= dataItems[i].stock%></td>
+	    <td><a href='/items/<%= dataItems[i].id %>/edit'> edit </a>|| <a href='/items/<%= dataItems[i].id %>/delete' onclick="return confirm('are you sure want to delete?')"> delete </a>
+	  </tr>
+	  <% } %>
+	</table>  
+
+</body>
+</html>
