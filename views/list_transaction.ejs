@@ -4,8 +4,79 @@
 	<title>All Transactions Data</title>
 </head>
 <body>
+	<a href='/items'>Items Page >></a>
 	<h1>All Transactions Data </h1>
-	<p><a href="/transactions/mostSellAllTime">most sell item all time</a></p>
+	<p><a href="/transactions/mostSellAllTime">5 most sell item all time</a></p>
+	<p><a href="/transactions/lessSellAllTime">5 less sell item all time</a></p>
+
+	
+	5 most sell item by year
+	<form action="/transactions/mostSellByYear" method="post">
+		<select name="year">
+  			<option>2017</option>
+  			<option>2018</option>
+		</select>
+		<input type="submit" value="Submit">
+	</form>
+	<br>
+
+	5 most sell item by month
+	<form action="/transactions/mostSellByMonth" method="post">
+		<select name="year">
+  			<option>2017</option>
+  			<option>2018</option>
+		</select>
+		<select name="month">
+  			<option value="01">January</option>
+  			<option value="02">February</option>
+  			<option value="03">March</option>
+  			<option value="04">April</option>
+  			<option value="05">May</option>
+  			<option value="06">June</option>
+  			<option value="07">July</option>
+  			<option value="08">August</option>
+  			<option value="09">September</option>
+  			<option value="10">Oktober</option>
+  			<option value="11">November</option>
+  			<option value="12">December</option>
+		</select>
+		<input type="submit" value="Submit">
+	</form><br>
+	<br>
+
+	5 most sell item by week
+	<form action="/transactions/mostSellByWeek" method="post">
+		<select name="year">
+  			<option>2017</option>
+  			<option>2018</option>
+		</select>
+
+		<select name="month">
+  			<option value="01">January</option>
+  			<option value="02">February</option>
+  			<option value="03">March</option>
+  			<option value="04">April</option>
+  			<option value="05">May</option>
+  			<option value="06">June</option>
+  			<option value="07">July</option>
+  			<option value="08">August</option>
+  			<option value="09">September</option>
+  			<option value="10">Oktober</option>
+  			<option value="11">November</option>
+  			<option value="12">December</option>
+		</select>
+
+		<select name="week">
+  			<option value="8">1</option>
+  			<option value="15">2</option>
+  			<option value="22">3</option>
+  			<option value="29">4</option>
+		</select>
+		<input type="submit" value="Submit">
+	</form>
+	<br>
+
+	
 	<table border="2px">	
 	  <tr>
 	  	<th>Id</th>

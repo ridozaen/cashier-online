@@ -31,6 +31,16 @@ module.exports = {
       role: 'cashier',
       createdAt: new Date(),
       updatedAt: new Date()
+    },
+    {
+      firstName: 'Dora',
+      lastName: 'Dora',
+      username: 'dora',
+      password: 'dora',
+      address: '',
+      role: 'admin',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }], {});
   },
 

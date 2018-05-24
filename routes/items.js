@@ -63,4 +63,12 @@ router.get('/:id/delete',function(req,res) {
 	})
 })
 
+router.get('/showAllBrand',function(req,res) {
+	models.Item.getAllBrand()
+	.then(dataBrands=>{
+		// res.send(dataBrands)
+		res.render('allBrand_item',{dataBrands:dataBrands})
+	})
+})
+
 module.exports = router

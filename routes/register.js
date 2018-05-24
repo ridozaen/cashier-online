@@ -4,12 +4,13 @@ const models = require('../models');
 const isAuthorized = require('../middleware/authorization');
 const User =  models.User;
 
-router.get ('/', isAuthorized, (req,res)=>{
+router.get ('/', (req,res)=>{
     res.render('register')
 })
 
 
 router.post ('/', (req,res)=>{
+    console.log(req.body)
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let username = req.body.username;
