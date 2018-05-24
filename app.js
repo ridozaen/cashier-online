@@ -34,7 +34,7 @@ app.use('/items',isAuthorized, items);
 app.use('/transactions',isAuthenticated,transactions);
 app.use('/report',isAuthorized,report);
 
-
-app.listen(3000, ()=>{
-    console.log ('server start at 3000...')
+const port = process.env.PORT || 4000;
+app.listen(port, ()=>{
+    console.log (`server starts on ${port}`)
 });
