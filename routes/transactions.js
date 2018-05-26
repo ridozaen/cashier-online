@@ -69,7 +69,7 @@ router.get('/add', function (req, res) {
 	objcurrUser.id = req.session.userId
 	objcurrUser.username = req.session.username
 	objcurrUser.role = req.session.role
-	res.render('add_Transaction', { currentUser: objcurrUser, transaction: {}, items:{}, numberOfItems: null });
+	res.render('add_transaction', { currentUser: objcurrUser, transaction: {}, items:{}, numberOfItems: null });
 
 });
 

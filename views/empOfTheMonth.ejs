@@ -34,16 +34,22 @@
     <table border="1">
         <tr>
             <td>Name</td>
-            <td><%= emp.fullName %></td>
+            <td><input type="text" value="<%= emp.fullName %>"></td>
         </tr>
         <tr>
                 <td>Username</td>
-                <td><%= emp.username %></td>
+                <td><input type="text" value="<%= emp.username %>"></td>
             </tr>
             <tr>
                     <td>Address</td>
-                    <td><%= emp.address %></td>
+                    <td> <input type="text" value="<%= emp.address %>">
+                    </td>
                 </tr>
+                <tr>
+                        <td>Total Transaction</td>
+                        <td> <input type="text" value="<%= emp.total %>">
+                        </td>
+                    </tr>
     </table>
 </body>
 </html>

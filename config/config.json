@@ -5,5 +5,12 @@
     "database": "cashierdb",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "production": {
+    "username": "hsueujaammiaur",
+    "password": "b464f066d27193470e8661214a23dfa7809d3a4347a20008218267af80d5c72f",
+    "database": "dbonu09uvs12cq",
+    "host": "ec2-54-243-235-153.compute-1.amazonaws.com",
+    "dialect": "postgres"
   }
 }

@@ -42,7 +42,8 @@ router.post('/employeeofthemonth', (req, res) => {
                 objEmp = {
                     fullName: emp[0].User.getFullName(),
                     username: emp[0].User.username,
-                    address: emp[0].User.address
+                    address: emp[0].User.address,
+                    total : emp[0].dataValues.total
                 }
                 res.render('empOfTheMonth', { currentUser: objcurrUser, emp: objEmp })
             }else{

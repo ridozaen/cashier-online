@@ -7,6 +7,7 @@ const logout = require('./routes/logout');
 const session = require('express-session');
 const items = require('./routes/items');
 const report = require('./routes/report');
+const users = require('./routes/users');
 const transactions = require('./routes/transactions');
 const isAuthenticated = require('./middleware/authentication');
 const isAuthorized = require('./middleware/authorization');
@@ -33,6 +34,7 @@ app.use('/logout', isAuthenticated, logout);
 app.use('/items',isAuthorized, items);
 app.use('/transactions',isAuthenticated,transactions);
 app.use('/report',isAuthorized,report);
+app.use('/users',isAuthorized,users);
 
 const port = process.env.PORT || 4000;
 app.listen(port, ()=>{

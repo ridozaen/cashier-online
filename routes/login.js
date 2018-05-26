@@ -3,9 +3,15 @@ const router = express.Router();
 const models = require('../models');
 const User = models.User;
 const bcrypt = require('bcrypt');
+const isAuthenticated = require('../middleware/authentication');
 
 router.get('/', (req, res) => {
-    res.render('login', {messages: ''});
+    let objcurrUser = {};
+    objcurrUser.id = req.session.userId
+    objcurrUser.username = req.session.username
+    objcurrUser.role = req.session.role
+    console.log(req.session.username);
+    res.render('login', {currentUser:objcurrUser, messages: ''});
 });
 
 router.post('/', (req, res) => {
@@ -15,6 +21,10 @@ router.post('/', (req, res) => {
         where: {username:username}
     })
     .then(function(user){
+        let objcurrUser = {};
+        objcurrUser.id = req.session.userId
+        objcurrUser.username = req.session.username
+        objcurrUser.role = req.session.role
         if (user){
             let cekPassword = bcrypt.compareSync(password, user.password);
             if (cekPassword){
@@ -23,10 +33,10 @@ router.post('/', (req, res) => {
                 req.session.role = user.role;
                 res.redirect('/');
             }else{
-                res.render('login', {messages:'Incorrect username/password'});
+                res.render('login', {currentUser:objcurrUser, messages:'Incorrect username/password'});
             }
         }else{
-            res.render('login', {messages:'Incorrect username/password'});
+            res.render('login', {currentUser:objcurrUser, messages:'Incorrect username/password'});
         }
     })
     .catch(function(err){

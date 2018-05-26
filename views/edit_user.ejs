@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit User</title>
+</head>
+<body>
+	<h1>Edit User</h1>
+	<form action="/users/<%= user.id%>/edit" method="post">
+	  First Name :<br>
+	  <input type="text" name="firstName" value="<%= user.firstName %>">
+	  <br>
+	  Last Name :<br>
+	  <input type="text" name="lastName" value="<%= user.lastName %>">
+	  <br>
+	  Address :<br>
+	  <input type="text" name="address" value="<%= user.address %>">
+	  <br>
+	  Role :<br>
+	  <input type="text" name="stock" value="<%= user.role %>">
+	  <br>
+	  <br>
+	  <input type="submit" value="Submit" >
+	</form> 
+</body>
+</html>
