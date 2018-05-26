@@ -10,6 +10,8 @@
 </head>
 
 <body>
+    <%- include header.ejs %>
+    <% if (currentUser.username === undefined){ %>
     <h1>Login User</h1>
         <div id="messages"> <%= messages %></div>
     <form action="/login" method="POST">
@@ -39,6 +41,7 @@
             </tr>
         </table>
     </form>
+    <%}%>
 </body>
 
 </html>

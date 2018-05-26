@@ -5,12 +5,15 @@ const isAuthorized = require('../middleware/authorization');
 const User =  models.User;
 
 router.get ('/', (req,res)=>{
-    res.render('register')
+    let objcurrUser = {};
+    objcurrUser.id = req.session.userId
+    objcurrUser.username = req.session.username
+    objcurrUser.role = req.session.role
+    res.render('register',{currentUser: objcurrUser, message: ''})
 })
 
 
 router.post ('/', (req,res)=>{
-    console.log(req.body)
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let username = req.body.username;
@@ -26,10 +29,14 @@ router.post ('/', (req,res)=>{
         role
     })
     .then(function(user){
-        res.redirect('/login')
+        res.redirect('/');
     })
     .catch(function(err){
-        res.send(err.message);
+        let objcurrUser = {};
+        objcurrUser.id = req.session.userId
+        objcurrUser.username = req.session.username
+        objcurrUser.role = req.session.role
+        res.render('register',{ currentUser: objcurrUser , message : err.message});
     })
 })
 
